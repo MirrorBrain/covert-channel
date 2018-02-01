@@ -1,13 +1,12 @@
 CC	:= gcc
-CFLAGS	:= -Wall -pedantic -std=c11 
+CFLAGS	:= -Wall -pedantic -std=c11 -O3
 
-POC: POC.c
+poc-alexis: poc-alexis.c
 	$(CC) $(CFLAGS) -o $@ $^
 
-main: POC
-
+main: poc-alexis
 
 .PHONY: clean
 
 clean:
-	rm -f POC *~
+	rm -f poc *~
