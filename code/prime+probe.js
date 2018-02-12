@@ -40,52 +40,52 @@ var rounds = 1000;
 
 for (var c = 0; c < rounds; c++) {
 
-    // purge L3 cache to prime eviction set
-    for (var i = 0; i < ((8192 * 1023) / offset); i++) {
-        current = evictionView.getUint32(i * offset);
-    }
+	// purge L3 cache to prime eviction set
+	for (var i = 0; i < ((8192 * 1023) / offset); i++) {
+		current = evictionView.getUint32(i * offset);
+	}
 
-    // first retrieval - comes from RAM
-    var beginFirst = window.performance.now();
-    current = probeView.getUint32(1);  //1 is the page
-    var endFirst = window.performance.now();
-    var diffFirst = endFirst - beginFirst;
+	// first retrieval - comes from RAM
+	var beginFirst = window.performance.now();
+	current = probeView.getUint32(1); //1 is the page
+	var endFirst = window.performance.now();
+	var diffFirst = endFirst - beginFirst;
 
-    // second retrieval - comes from L3
-    var beginSecond = window.performance.now();
-    current = probeView.getUint32(1);  //1 is the page
-    var endSecond = window.performance.now();
-    var diffSecond = endSecond - beginSecond;
+	// second retrieval - comes from L3
+	var beginSecond = window.performance.now();
+	current = probeView.getUint32(1); //1 is the page
+	var endSecond = window.performance.now();
+	var diffSecond = endSecond - beginSecond;
 
-    // Control tests:
+	/****************************** Control tests: ******************************/
 
-    // this test should be comparable to the second
-    var beginThird = window.performance.now();
-    current = probeView.getUint32(1);  //1 is the page
-    var endThird = window.performance.now();
-    var diffThird = endThird - beginThird;
+	// this test should be comparable to the second
+	var beginThird = window.performance.now();
+	current = probeView.getUint32(1); //1 is the page
+	var endThird = window.performance.now();
+	var diffThird = endThird - beginThird;
 
-    // purge L3 cache to prime eviction set
-    for (var i = 0; i < ((8192 * 1023) / offset); i++) {
-        current = evictionView.getUint32(i * offset);
-    }
+	// purge L3 cache to prime eviction set
+	for (var i = 0; i < ((8192 * 1023) / offset); i++) {
+		current = evictionView.getUint32(i * offset);
+	}
 
-    // this test should be comparable to the first
-    var beginFourth = window.performance.now();
-    current = probeView.getUint32(1);  //1 is the page
-    var endFourth = window.performance.now();
-    var diffFourth = endFourth - beginFourth;
+	// this test should be comparable to the first
+	var beginFourth = window.performance.now();
+	current = probeView.getUint32(1); //1 is the page
+	var endFourth = window.performance.now();
+	var diffFourth = endFourth - beginFourth;
 
-    // measure differences
-    flushedTotal += diffFirst;
-    unflushedTotal += diffSecond;
-    flushedControlTotal += diffFourth;
-    unflushedControlTotal += diffThird;
+	// measure differences
+	flushedTotal += diffFirst;
+	unflushedTotal += diffSecond;
+	flushedControlTotal += diffFourth;
+	unflushedControlTotal += diffThird;
 }
 
 console.log({
-    flushedAverage: flushedTotal / rounds,
-    unflushedAverage: unflushedTotal / rounds,
-    flushedControlAverage: flushedControlTotal / rounds,
-    unflushedControlAverage: unflushedControlTotal / rounds
+	flushedAverage: flushedTotal / rounds,
+	unflushedAverage: unflushedTotal / rounds,
+	flushedControlAverage: flushedControlTotal / rounds,
+	unflushedControlAverage: unflushedControlTotal / rounds
 });
