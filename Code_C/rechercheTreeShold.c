@@ -3,7 +3,7 @@
  * @Date:   2018-02-09T17:46:07+01:00
  * @Email:  me@ribaultpierre.fr
  * @Last modified by:   cawo
- * @Last modified time: 2018-02-09T18:53:25+01:00
+ * @Last modified time: 2018-02-12T14:24:12+01:00
 
 
  Ce programme permet de récupèrer les différents temps des accés
@@ -21,7 +21,7 @@
 
 #define line 64
 #define  tailleBuffer 1024*8192
-#define tour 5000
+#define tour 1000
 
 
 int ecrireDansUnFichier(char *namefichier,uint64_t *tableauUn, uint64_t *tableauDeux)
