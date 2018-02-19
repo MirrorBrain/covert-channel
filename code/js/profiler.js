@@ -20,14 +20,14 @@ function precisionRound(number, precision) {
 	return Math.round(number * factor) / factor;
 }
 
-function in (x, y) {
+function is_in(x, y) {
 	return compare(x, y) < diff;
 }
 
 function toto(x, table) {
 	var ok = false;
 	for (var j of table) {
-		if ( in (x, j)) {
+		if (is_in(x, j)) {
 			ok = true;
 			// console.log("x,j = " + x + "," + j);
 			break;
@@ -79,7 +79,7 @@ function init_array(x, table) {
 function sort_data(table, table_b, element) {
 	for (var y of table_b) {
 		// console.log("in sort_data element,y = " + element, ";" + y);
-		if ( in (element, y)) {
+		if (is_in(element, y)) {
 			var index = table_b.indexOf(y);
 			// console.log("added");
 			table[index] = table[index] + 1;
