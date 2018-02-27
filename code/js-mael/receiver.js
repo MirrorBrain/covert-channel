@@ -17,81 +17,82 @@ var offset = 64;
 // bogus retrieval variable
 var current;
 
-/**************************** Threshold definition ****************************/
 
-// purge L3 cache to prime eviction set
-function purge() {
-	for (var i = 0; i < ((buffer_size - 8192) / offset); i++) {
-		current = eviction_view.getUint32(i * offset);
-	}
-}
-
-// running counts
-var flushed_total = 0;
-var unflushed_total = 0;
-var flushed_control_total = 0;
-var unflushed_control_total = 0;
-
-// run test 'rounds' number of times
-var rounds = 1000;
-
-for (var c = 0; c < rounds; c++) {
-	purge();
-
-	// first retrieval - comes from RAM
-	var beginFirst = window.performance.now();
-	current = probe_view.getUint32(1); //1 is the page
-	var diffFirst = window.performance.now() - beginFirst;
-
-	// second retrieval - comes from L3
-	var beginSecond = window.performance.now();
-	current = probe_view.getUint32(1); //1 is the page
-	var diffSecond = window.performance.now() - beginSecond;
-
-	/****************************** Control tests: ******************************/
-
-	// this test should be comparable to the second
-	var beginThird = window.performance.now();
-	current = probe_view.getUint32(1); //1 is the page
-	var diffThird = window.performance.now() - beginThird;
-
-	purge();
-
-	// this test should be comparable to the first
-	var beginFourth = window.performance.now();
-	current = probe_view.getUint32(1); //1 is the page
-	var diffFourth = window.performance.now() - beginFourth;
-
-	// measure differences
-	flushed_total += diffFirst;
-	unflushed_total += diffSecond;
-	flushed_control_total += diffFourth;
-	unflushed_control_total += diffThird;
-}
-
-// results from the threshold definition
-var results = {
-	flushed_average: flushed_total / rounds,
-	unflushed_average: unflushed_total / rounds,
-	flushed_control_average: flushed_control_total / rounds,
-	unflushed_control_average: unflushed_control_total / rounds
-}
-
-console.log(results);
+// /**************************** Threshold definition ****************************/
+//
+// // purge L3 cache to prime eviction set
+// function purge() {
+// 	for (var i = 0; i < ((buffer_size - 8192) / offset); i++) {
+// 		current = eviction_view.getUint32(i * offset);
+// 	}
+// }
+//
+// // running counts
+// var flushed_total = 0;
+// var unflushed_total = 0;
+// var flushed_control_total = 0;
+// var unflushed_control_total = 0;
+//
+// // run test 'rounds' number of times
+// var rounds = 1000;
+//
+// for (var c = 0; c < rounds; c++) {
+// 	purge();
+//
+// 	// first retrieval - comes from RAM
+// 	var beginFirst = window.performance.now();
+// 	current = probe_view.getUint32(1); //1 is the page
+// 	var diffFirst = window.performance.now() - beginFirst;
+//
+// 	// second retrieval - comes from L3
+// 	var beginSecond = window.performance.now();
+// 	current = probe_view.getUint32(1); //1 is the page
+// 	var diffSecond = window.performance.now() - beginSecond;
+//
+// 	/****************************** Control tests: ******************************/
+//
+// 	// this test should be comparable to the second
+// 	var beginThird = window.performance.now();
+// 	current = probe_view.getUint32(1); //1 is the page
+// 	var diffThird = window.performance.now() - beginThird;
+//
+// 	purge();
+//
+// 	// this test should be comparable to the first
+// 	var beginFourth = window.performance.now();
+// 	current = probe_view.getUint32(1); //1 is the page
+// 	var diffFourth = window.performance.now() - beginFourth;
+//
+// 	// measure differences
+// 	flushed_total += diffFirst;
+// 	unflushed_total += diffSecond;
+// 	flushed_control_total += diffFourth;
+// 	unflushed_control_total += diffThird;
+// }
+//
+// // results from the threshold definition
+// var results = {
+// 	flushed_average: flushed_total / rounds,
+// 	unflushed_average: unflushed_total / rounds,
+// 	flushed_control_average: flushed_control_total / rounds,
+// 	unflushed_control_average: unflushed_control_total / rounds
+// }
+//
+// console.log(results);
 
 // define the threshold with the previous results
-var threshold = Math.max(results.unflushed_average, results.unflushed_control_average);
+var threshold = 0.00033 // Math.max(results.unflushed_average, results.unflushed_control_average);
 
 console.log("threshold = " + threshold);
 
 /******************************* Receiver's functions *******************************/
 
-var times_to_listen = 100;
+var times_to_listen = 1000;
 
 // blocking wait
 function sleep(delay) {
-	var start = new Date().getTime();
-	while (new Date().getTime() < start + delay);
+	var start = window.performance.now();
+	while (window.performance.now() < start + delay);
 }
 
 // get a bit

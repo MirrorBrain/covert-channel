@@ -88,6 +88,12 @@ function purge() {
 
 var times_to_send = 100;
 
+// blocking wait
+function sleep(delay) {
+	var start = new Date().getTime();
+	while (new Date().getTime() < start + delay);
+}
+
 // send a one for 'times_to_send' times
 function send_one() {
 	for (var i = 0; i < times_to_send; i++) {
@@ -105,8 +111,7 @@ console.log("sending time  = " + diff);
 function send_bits(message) {
 	for (var i = 0; i < message.length; i++) {
 		if (message[i] = 0) {
-			setTimeout(function () {;
-			}, diff);
+			sleep(diff);
 		} else {
 			send_one();
 		}
