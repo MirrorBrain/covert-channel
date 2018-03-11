@@ -12,9 +12,8 @@ import plotly.plotly as py  # tools to communicate with Plotly's server
 import pylab as P
 
 
-
 def tableauTrier(tabl):
-    tab= []
+    tab = []
     maxTableau = np.amax(tabl)
     print("maximum du tableau = " + str(maxTableau))
 
@@ -23,19 +22,18 @@ dataUnflushed = []
 dataFlushed = []
 with open('sortie.csv') as csvfile:
     iteration = 0
-    reader =csv.reader(csvfile,delimiter=";")
+    reader = csv.reader(csvfile, delimiter=";")
     for row in reader:
         if(iteration != 0):
             dataFlushed.append(row[0])
             dataUnflushed.append(row[1])
-        iteration = iteration +1
-
+        iteration = iteration + 1
 
 
 dataUnflushed.sort()
 dataFlushed.sort()
 del dataUnflushed[len(dataUnflushed) - 1]
-del dataFlushed[len(dataFlushed) -1]
+del dataFlushed[len(dataFlushed) - 1]
 
 dataUnflushed = list(map(int, dataUnflushed))
 
@@ -49,17 +47,17 @@ dataFlushed.sort()
 for dat in dataFlushed:
     print("x = " + str(dat) + " avec comme type = " + str(type(dat)))
 #bins = numpy.linspace(0, 30, 1000)
-#plt.hist(dataFlushed,bins)
-#plt.hist(dataUnflushed,bins)
+# plt.hist(dataFlushed,bins)
+# plt.hist(dataUnflushed,bins)
 #plt.hist(a, bins,label="flushed", alpha=0.5)
 #plt.hist(b, bins,label="flushed", alpha=0.5)
 
 #plt.hist(dataUnflushed, bins,label="unflushed", alpha=0.5)
-#plt.show()
-#plot_url = py.plot_mpl(histogram, filename='docs/histogram-mpl-same')**
+# plt.show()
+# plot_url = py.plot_mpl(histogram, filename='docs/histogram-mpl-same')**
 
 print("tableau = " + str(dataFlushed))
-#tableauTrier(a)
+# tableauTrier(a)
 """
 P.figure()
 w0 = np.ones_like(x0)
@@ -72,12 +70,13 @@ P.show()
 dataUnflushed.sort()
 dataFlushed.sort()
 """
-bins = [x for x in range(100,1500)]
+bins = [x for x in range(100, 1500)]
 del dataUnflushed[len(dataUnflushed) - 1]
-del dataFlushed[len(dataFlushed) -1]
-#plt.figure()
-plt.hist(dataUnflushed,bins = bins, color= 'yellow',edgecolor ='yellow' ,label='unflushed')
-plt.hist(dataFlushed,bins = bins, color= 'red',edgecolor ='red' ,label='flushed')
+del dataFlushed[len(dataFlushed) - 1]
+# plt.figure()
+plt.hist(dataUnflushed, bins=bins, color='yellow',
+         edgecolor='yellow', label='unflushed')
+plt.hist(dataFlushed, bins=bins, color='red', edgecolor='red', label='flushed')
 plt.ylabel('nombres')
 plt.xlabel('temps')
 plt.legend()
