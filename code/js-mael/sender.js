@@ -90,8 +90,8 @@ var times_to_send = 100;
 
 // blocking wait
 function sleep(delay) {
-	var start = new Date().getTime();
-	while (new Date().getTime() < start + delay);
+	var start = window.performance.now();
+	while (window.performance.now() < start + delay);
 }
 
 // send a one for 'times_to_send' times
@@ -118,4 +118,6 @@ function send_bits(message) {
 	}
 }
 
-send_bits([1, 0, 0, 1, 1, 0, 1]);
+send_bits([1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+	1, 1, 1, 1, 1, 1, 1, 1
+]);
